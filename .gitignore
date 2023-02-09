@@ -1,3 +1,6 @@
 /minerl-src
 logs
 venv
+.idea
+empty_mc_world
+__pycache__
