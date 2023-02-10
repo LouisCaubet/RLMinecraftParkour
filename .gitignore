@@ -4,3 +4,5 @@ venv
 .idea
 empty_mc_world
 __pycache__
+mission.xml
+/malmo*

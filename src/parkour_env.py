@@ -11,10 +11,10 @@ from minerl.herobraine.env_specs.basalt_specs import BasaltBaseEnvSpec, MINUTE
 from minerl.herobraine.env_specs.simple_embodiment import SimpleEmbodimentEnvSpec
 from minerl.herobraine.hero.handler import Handler
 import minerl.herobraine.hero.handlers as handlers
+from minerl.herobraine.hero.handlers import TranslationHandler
 from minerl.herobraine.hero.mc import MS_PER_STEP
 
 from block_list_handler import BlockListHandler
-from flat_world_generator_handler import FlatWorldGenerator
 
 NAVIGATE_STEPS = 6000
 
@@ -58,40 +58,40 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         ]
 
     def create_agent_start(self) -> List[Handler]:
-        return super().create_agent_start() + [
-            handlers.AgentStartPlacement(0, 128, 0)
+        return [
+            handlers.AgentStartPlacement(0, 6, 0)
         ]
 
-    # def create_agent_handlers(self) -> List[Handler]:
-    #     return [
-    #         handlers.AgentQuitFromTouchingBlockType(
-    #             ["diamond_block"]
-    #         )
-    #     ]
+    def create_agent_handlers(self) -> List[Handler]:
+        return [
+            handlers.AgentQuitFromTouchingBlockType(
+                ["diamond_block"]
+            )
+        ]
 
-    # def create_server_initial_conditions(self) -> List[Handler]:
-    #     return [
-    #         handlers.TimeInitialCondition(
-    #             allow_passage_of_time=False,
-    #             start_time=6000
-    #         ),
-    #         handlers.WeatherInitialCondition('clear'),
-    #         handlers.SpawningInitialCondition(False),
-    #     ]
+    def create_server_initial_conditions(self) -> List[Handler]:
+        return [
+            handlers.TimeInitialCondition(
+                allow_passage_of_time=False,
+                start_time=6000
+            ),
+            handlers.WeatherInitialCondition('clear'),
+            handlers.SpawningInitialCondition(False),
+        ]
 
-    # def create_server_decorators(self) -> List[Handler]:
-    #     # Create XML string to draw blocks
-    #     map_csv_path = os.environ['MINERL_PARKOUR_MAP']
-    #     self.load_map(map_csv_path)
-    #
-    #     return [
-    #         BlockListHandler(self.blocks)
-    #     ]
+    def create_server_decorators(self) -> List[Handler]:
+        # Create XML string to draw blocks
+        map_csv_path = os.environ['MINERL_PARKOUR_MAP']
+        self.load_map(map_csv_path)
+
+        return [
+            BlockListHandler(self.blocks)
+        ]
 
     def create_server_world_generators(self) -> List[Handler]:
         path_to_world = os.path.abspath(os.path.join("assets", "empty_mc_world"))
         return [
-            handlers.FileWorldGenerator(path_to_world)
+            handlers.FlatWorldGenerator(generatorString="3;7;0;", force_reset=False),
         ]
 
     # def create_server_quit_producers(self) -> List[Handler]:
