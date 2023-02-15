@@ -5,27 +5,28 @@ Louis Caubet, Firas Ben Jedidia, Long Van Tran Ha, Léo Feliers, Inès Vignal <b
 
 ## Installation instructions
 
-We recommend using Python 3.9 or newer in a virtual environment to run this project.
+We recommend using Python 3.9 in a virtual environment to run this project.
 
-- Install Java JDK 8 ([AdoptOpenJDK](https://adoptium.net/))
+-   Install Java JDK 8 ([AdoptOpenJDK](https://adoptium.net/))
 
-- Install MineRL 
+-   Install MineRL
 
-    - using `pip install git+https://github.com/minerllabs/minerl`
-    - OR, if you don't want to install more than needed:
-      ```
-      git clone https://github.com/minerllabs/minerl.git
-      set READTHEDOCS=true
-      pip install -e minerl
-      ```
-      Using the READTHEDOCS environment will not build Minecraft when installing MineRL, which we don't need anyway.
+    -   using `pip install git+https://github.com/minerllabs/minerl`
+    -   OR, if you don't want to install more than needed:
+        ```
+        git clone https://github.com/minerllabs/minerl.git
+        set READTHEDOCS=true
+        pip install -e minerl
+        ```
+        Using the READTHEDOCS environment will not build Minecraft when installing MineRL, which we don't need anyway.
 
-- Install other python dependencies:
+-   Install other python dependencies:
+
 ```
 pip install -r requirements.txt
 ```
 
-- Install Malmo & MalmoEnv:
+-   Install Malmo & MalmoEnv:
 
 ```
 git clone https://github.com/Microsoft/malmo.git
