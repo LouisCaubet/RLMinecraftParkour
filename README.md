@@ -15,10 +15,20 @@ We recommend using Python 3.9 in a virtual environment to run this project.
     -   OR, if you don't want to install more than needed:
         ```
         git clone https://github.com/minerllabs/minerl.git
-        set READTHEDOCS=true
+        set READTHEDOCS=true (Windows) OR export READTHEDOCS=true (Unix)
         pip install -e minerl
         ```
         Using the READTHEDOCS environment will not build Minecraft when installing MineRL, which we don't need anyway.
+
+<br>
+
+-   Clone this repository:
+
+```
+git clone https://github.com/LouisCaubet/RLMinecraftParkour.git
+
+cd RLMinecraftParkour
+```
 
 -   Install other python dependencies:
 
