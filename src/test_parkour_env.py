@@ -18,7 +18,7 @@ if __name__ == "__main__":
     import logging
     logging.basicConfig(level=logging.DEBUG)
 
-    os.environ['MINERL_PARKOUR_MAP'] = "assets/dev_map.csv"
+    os.environ['MINERL_PARKOUR_MAP'] = "assets/ines_map.csv"
     malmo_version = '0.37.0'
 
     env = MinecraftParkourEnv()
