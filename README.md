@@ -17,7 +17,7 @@ git clone https://github.com/LouisCaubet/RLMinecraftParkour.git
 cd RLMinecraftParkour
 ```
 
--   Install other python dependencies:
+-   Install python dependencies:
 
 ```
 pip install -r requirements.txt
