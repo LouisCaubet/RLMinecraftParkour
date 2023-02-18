@@ -20,9 +20,12 @@ minerl.herobraine.env_spec.MISSION_TEMPLATE = os.path.join("assets", "mission.xm
 def create_model(env):
     
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Dense(128, activation='relu', input_shape=(6400,)),
+        tf.keras.layers.Dense(128, activation='relu', input_shape=(691200,)),
         tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dense(len(env.action_space), activation='linear')
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(len(env.action_space), activation='softmax')
     ])
 
     return model
@@ -42,16 +45,16 @@ def train(num_episodes, env,  model, discount_factor=0.95, epsilon=0.1, epsilon_
         state = env.reset()
 
         # Convert the state to a vector
-        state = state.reshape((1, 6400))
+        state = state.reshape((1, 691200))
 
         done = False
         while not done:
             # Choose the next action using the epsilon-greedy policy
-            action = epsilon_greedy_policy(state, epsilon, env)
+            action = epsilon_greedy_policy(state, epsilon, env, model)
 
             # Take a step in the environment
             next_state, reward, done, info = env.step(action)
-            next_state = next_state.reshape((1, 6400))
+            next_state = next_state.reshape((1, 691200))
 
             # Update the Q-value for the taken action
             Q_values = model.predict(state)
