@@ -5,15 +5,66 @@ Created on Feb 09, 2023
 """
 import os
 import numpy as np
-import malmo
+import minerl
 import malmoenv
 import parser
 import argparse
 import stable_baselines3
+import tensorflow as tf
 # Override the default mission template
 import minerl.herobraine.env_spec
 minerl.herobraine.env_spec.MISSION_TEMPLATE = os.path.join("assets", "mission.xml.j2")
 
+
+# Define the network architecture
+def create_model(env):
+    
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Dense(128, activation='relu', input_shape=(6400,)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(len(env.action_space), activation='linear')
+    ])
+
+    return model
+
+# Define the epsilon-greedy exploration strategy
+def epsilon_greedy_policy(state, epsilon, env, model):
+    if np.random.rand() < epsilon:
+        return env.action_space.sample()
+    else:
+        Q_values = model.predict(state)
+        return np.argmax(Q_values)
+
+# Train the agent
+def train(num_episodes, env,  model, discount_factor=0.95, epsilon=0.1, epsilon_decay=0.99):
+    for episode in range(num_episodes):
+        # Initialize the environment
+        state = env.reset()
+
+        # Convert the state to a vector
+        state = state.reshape((1, 6400))
+
+        done = False
+        while not done:
+            # Choose the next action using the epsilon-greedy policy
+            action = epsilon_greedy_policy(state, epsilon, env)
+
+            # Take a step in the environment
+            next_state, reward, done, info = env.step(action)
+            next_state = next_state.reshape((1, 6400))
+
+            # Update the Q-value for the taken action
+            Q_values = model.predict(state)
+            Q_values[0][action] = reward + discount_factor * np.max(model.predict(next_state))
+            model.fit(state, Q_values, verbose=0)
+
+            state = next_state
+
+            if done:
+                print("Episode {}/{} finished after {} steps".format(episode + 1, num_episodes, info['steps']))
+
+        # Decay the exploration rate
+        epsilon *= epsilon_decay
 
 if __name__ == "__main__":
     import gym
@@ -48,7 +99,7 @@ if __name__ == "__main__":
         args.server2 = args.server
 
     env = malmoenv.make()
-    mission_xml = env.to_xml()
+    mission_xml = MinecraftParkourEnv().to_xml()
 
     env.init(mission_xml, args.port,
              server=args.server,
@@ -58,18 +109,13 @@ if __name__ == "__main__":
              episode=args.episode, resync=args.resync)
     
 
-    model = stable_baselines3.DQN("MlpPolicy", env, verbose=1)
-    model.learn(total_timesteps=10000) #Est-ce que je dois mettre le Timelimits du XML?
+    model = create_model(env)
+    model.compile(loss='mean_squared_error', optimizer='adam')
 
-    vec_env = model.get_env()
-    obs = vec_env.reset()
-    for i in range(1000):
-        action, _states = model.predict(obs, deterministic=True)
-        obs, reward, done, info = vec_env.step(action)
-        # vec_env.render() Essaie ça stv 
-        # VecEnv resets automatically
-        # if done:
-        #   obs = env.reset()
+
+    train(100, env, model)
+
+    
 
     env.close()
     with open("assets/mission.xml", "w") as f:
@@ -81,14 +127,3 @@ if __name__ == "__main__":
 
     # Replace this with a custom script for training
     os.system("python run.py --mission ../../RLMinecraftParkour/assets/mission.xml --port 9000")
-
-    # env = gym.make('MinecraftParkour-v0')
-    # env.reset()
-    #
-    # done = False
-    # while not done:
-    #     env.step(env.action_space.noop())
-    #     time.sleep(0.1)
-    #     env.render()
-    #
-    # env.close()
