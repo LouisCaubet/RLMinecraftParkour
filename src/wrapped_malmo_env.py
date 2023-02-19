@@ -4,6 +4,10 @@ Created on Feb 19, 2023
 @author: LouisCaubet
 """
 import gym
+from malmoenv import VisualObservationSpace
+from torchvision import transforms
+from PIL import Image
+import numpy as np
 
 
 class WrappedEnv(gym.Env):
@@ -11,7 +15,9 @@ class WrappedEnv(gym.Env):
     def __init__(self, malmo_env):
         self.env = malmo_env
         self.action_space = self.env.action_space
-        self.observation_space = self.env.observation_space
+        self.observation_space = VisualObservationSpace(64, 64, 3)
+
+        self.obs_transform = transforms.Resize((64, 64))
 
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
@@ -21,10 +27,18 @@ class WrappedEnv(gym.Env):
         if reward != 0:
             print("Reward: " + str(reward))
 
+        img = Image.fromarray(obs)
+        img = self.obs_transform(img)
+        obs = np.array(img)
+
         return obs, reward, done, info
 
     def reset(self):
-        return self.env.reset()
+        obs = self.env.reset()
+        img = Image.fromarray(obs)
+        img = self.obs_transform(img)
+        obs = np.array(img)
+        return obs
 
     def render(self, mode='human'):
         return self.env.render(mode)

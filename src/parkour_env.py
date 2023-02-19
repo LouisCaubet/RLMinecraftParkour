@@ -59,13 +59,15 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         self.load_map(map_csv_path)
 
         rewards = [
-            {'type': 'bedrock', 'behaviour': 'onceOnly', 'reward': '-10'},
+            {'type': 'bedrock', 'behaviour': 'onceOnly', 'reward': '-100'},
+            {'type': 'diamond_block', 'behaviour': 'onceOnly', 'reward': '100'},
+            {'type': 'dirt', 'behaviour': 'oncePerTimeSpan', 'reward': '10'},
         ]
-        for block in self.blocks[1:]:
-            rewards.append(
-                {'type': block[3], 'behaviour': 'onceOnly',
-                 'reward': 100.0},
-            )
+        # for block in self.blocks[1:]:
+        #     rewards.append(
+        #         {'type': block[3], 'behaviour': 'onceOnly',
+        #          'reward': 100.0},
+        #     )
 
         return [
             handlers.RewardForTouchingBlockType(rewards)
@@ -73,13 +75,13 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
 
     def create_agent_start(self) -> List[Handler]:
         return [
-            handlers.AgentStartPlacement(0, 6, 0)
+            handlers.AgentStartPlacement(0, 2, 0)
         ]
 
     def create_agent_handlers(self) -> List[Handler]:
         return [
             handlers.AgentQuitFromTouchingBlockType(
-                ["bedrock"]
+                ["bedrock", "diamond_block"]
             )
         ]
 
