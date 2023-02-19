@@ -33,6 +33,10 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         self.start_block = None
 
     def load_map(self, map_csv: str):
+        # Do this only once
+        if hasattr(self, 'blocks') and len(self.blocks) > 0:
+            return
+
         # read csv and create list of blocks
         print("Called load map")
         self.blocks = []
@@ -50,11 +54,19 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         self.start_block = self.blocks[0]
 
     def create_rewardables(self) -> List[handlers.TranslationHandler]:
+        # Load map if not already done
+        map_csv_path = os.environ['MINERL_PARKOUR_MAP']
+        self.load_map(map_csv_path)
+
+        rewards = []
+        for block in self.blocks:
+            rewards.append(
+                {'type': block[3], 'behaviour': 'onceOnly',
+                 'reward': 100.0},
+            )
+
         return [
-            handlers.RewardForTouchingBlockType([
-                       {'type': 'diamond_block', 'behaviour': 'onceOnly',
-                        'reward': 100.0},
-                   ]),
+            handlers.RewardForTouchingBlockType(rewards)
         ]
 
     def create_agent_start(self) -> List[Handler]:
@@ -65,7 +77,7 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
     def create_agent_handlers(self) -> List[Handler]:
         return [
             handlers.AgentQuitFromTouchingBlockType(
-                ["diamond_block"]
+                ["bedrock"]
             )
         ]
 

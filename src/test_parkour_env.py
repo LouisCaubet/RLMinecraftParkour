@@ -4,19 +4,20 @@ Created on Feb 09, 2023
 @author: LouisCaubet
 """
 import os
+import logging
+# noinspection PyUnresolvedReferences
+import gym
 
 # Override the default mission template
 import minerl.herobraine.env_spec
 minerl.herobraine.env_spec.MISSION_TEMPLATE = os.path.join("assets", "mission.xml.j2")
 
+logging.basicConfig(level=logging.DEBUG)
+
 if __name__ == "__main__":
-    import gym
     import time
 
     from parkour_env import MinecraftParkourEnv
-
-    import logging
-    logging.basicConfig(level=logging.DEBUG)
 
     os.environ['MINERL_PARKOUR_MAP'] = "assets/ines_map.csv"
     malmo_version = '0.37.0'
