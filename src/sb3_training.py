@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 def create_env():
-    os.environ['MINERL_PARKOUR_MAP'] = "assets/ines_map.csv"
+    os.environ['MINERL_PARKOUR_MAP'] = "assets/level1.csv"
     malmo_version = '0.37.0'
 
     malmo_env = malmoenv.make()
@@ -44,9 +44,9 @@ def create_env():
 
 if __name__ == "__main__":
     env = create_env()
-    model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
-    # model = PPO('CnnPolicy', env, verbose=1)
-    model.learn(total_timesteps=1000000)
+    # model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
+    model = PPO('CnnPolicy', env, verbose=1)
+    model.learn(total_timesteps=10000)
     model.save("dqn_minecraft_parkour")
 
     env.env.close()
