@@ -34,7 +34,7 @@ if __name__ == "__main__":
     os.system("python run_DQN.py --mission ../../assets/mission.xml --port 9000")
 
 
-    env = gym.make('MinecraftParkour-v0')
+    #env = gym.make('MinecraftParkour-v0')
     # env.reset()
     #
     # done = False
