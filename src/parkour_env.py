@@ -58,8 +58,10 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         map_csv_path = os.environ['MINERL_PARKOUR_MAP']
         self.load_map(map_csv_path)
 
-        rewards = []
-        for block in self.blocks:
+        rewards = [
+            {'type': 'bedrock', 'behaviour': 'onceOnly', 'reward': '-10'},
+        ]
+        for block in self.blocks[1:]:
             rewards.append(
                 {'type': block[3], 'behaviour': 'onceOnly',
                  'reward': 100.0},

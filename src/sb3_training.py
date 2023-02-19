@@ -6,7 +6,7 @@ Created on Feb 19, 2023
 import os
 import gym
 import malmoenv
-from stable_baselines3 import DQN
+from stable_baselines3 import DQN, A2C, PPO
 import time
 import logging
 
@@ -44,26 +44,9 @@ def create_env():
 
 if __name__ == "__main__":
     env = create_env()
-    model = DQN('MlpPolicy', env, verbose=1, buffer_size=100)
-    model.learn(total_timesteps=10000)
+    model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
+    # model = PPO('CnnPolicy', env, verbose=1)
+    model.learn(total_timesteps=1000000)
     model.save("dqn_minecraft_parkour")
-
-    # for i in range(10):
-    #     print("reset " + str(i))
-    #     obs = env.reset()
-    #
-    #     steps = 0
-    #     done = False
-    #     while not done and steps < 10000:
-    #         action = env.action_space.sample()
-    #
-    #         obs, reward, done, info = env.step(action)
-    #         steps += 1
-    #         print("reward: " + str(reward))
-    #         # print("done: " + str(done))
-    #         print("obs: " + str(obs))
-    #         # print("info" + info)
-    #
-    #         time.sleep(.05)
 
     env.env.close()

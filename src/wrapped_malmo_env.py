@@ -17,6 +17,10 @@ class WrappedEnv(gym.Env):
         obs, reward, done, info = self.env.step(action)
         # SB3 expects a dict
         info = {'info': info}
+
+        if reward != 0:
+            print("Reward: " + str(reward))
+
         return obs, reward, done, info
 
     def reset(self):
