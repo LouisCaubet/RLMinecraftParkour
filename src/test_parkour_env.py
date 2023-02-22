@@ -5,6 +5,7 @@ Created on Feb 09, 2023
 """
 import os
 import logging
+from dotenv import load_dotenv
 # noinspection PyUnresolvedReferences
 import gym
 
@@ -16,10 +17,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":
     import time
+    load_dotenv(".env")
 
     from parkour_env import MinecraftParkourEnv
 
-    os.environ['MINERL_PARKOUR_MAP'] = "assets/ines_map.csv"
     malmo_version = '0.37.0'
 
     env = MinecraftParkourEnv()
@@ -34,14 +35,3 @@ if __name__ == "__main__":
 
     # Replace this with a custom script for training
     os.system("python run.py --mission ../../assets/mission.xml --port 9000")
-
-    # env = gym.make('MinecraftParkour-v0')
-    # env.reset()
-    #
-    # done = False
-    # while not done:
-    #     env.step(env.action_space.noop())
-    #     time.sleep(0.1)
-    #     env.render()
-    #
-    # env.close()
