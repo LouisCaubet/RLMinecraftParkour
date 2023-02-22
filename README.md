@@ -3,6 +3,7 @@
 Louis Caubet, Firas Ben Jedidia, Long Van Tran Ha, Léo Feliers, Inès Vignal <br>
 2023 Project for the INF581 Advanced Machine Learning course at Ecole Polytechnique.
 
+
 ## Installation instructions
 
 We recommend using Python 3.9 in a virtual environment to run this project.
@@ -46,3 +47,14 @@ Open another terminal to run our code.
 
 You can then run the desired Python script. Make sure it is executed from the root of the project.
 Example: `python src/test_parkour_env.py`.
+
+
+## Results
+
+### Level 1: Straight line, easy first level to test setup
+
+Trained using PPO with 10k steps.
+
+Action space: *Move, Strafe*
+
+https://user-images.githubusercontent.com/59528773/220745121-85449269-235f-4d0d-a1b3-a1aea2f5c0fa.mp4
