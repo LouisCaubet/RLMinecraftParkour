@@ -57,4 +57,9 @@ Trained using PPO with 10k steps.
 
 Action space: *Move, Strafe*
 
+Rewards:
+- +100 for reaching the diamond block
+- +10 for each (gold) block towards the goal
+- -100 and end of episode when touching the bedrock
+
 https://user-images.githubusercontent.com/59528773/220745121-85449269-235f-4d0d-a1b3-a1aea2f5c0fa.mp4
