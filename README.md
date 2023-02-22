@@ -45,4 +45,35 @@ launchClient.bat -port 9000 -env
 Open another terminal to run our code.
 
 You can then run the desired Python script. Make sure it is executed from the root of the project.
-Example: `python src/test_parkour_env.py`.
+
+-   `python src/test_parkour_env.py` will simply open the `parkour_env` in Minecraft.
+-   `python src/sb3_training.py` will run the training using Stable-Baselines3
+-   `python src/sb3_testing.py` will run the SB3 trained model in inference mode.
+
+## Configuration
+
+Use the `.env` file for configuration. Here's a list of environment variables we use:
+
+-   `MINERL_PARKOUR_MAP`: Path to the CSV defining the map.
+-   `MALMO_PORT`: Port on which Malmo is running (default: 9000)
+-   `SB3_ALGO`: Algorithm to use for training. Possible values: DQN, PPO, A2C
+-   `SB3_TIMESTEPS`: Number of training timesteps
+-   `S3_TRAINED_MODEL_NAME`: Name under which to save the model after training.
+-   `SB3_INFERENCE_MODEL_NAME`: Model to use for inference in the `sb3_predict` script.
+-   `SB3_INFERENCE_STEPS`: Number of steps to run inference for.
+
+## Results
+
+### Level 1: Straight line, easy first level to test setup
+
+Trained using PPO with 10k steps.
+
+Action space: _Move, Strafe_
+
+Rewards:
+
+-   +100 for reaching the diamond block
+-   +10 for each (gold) block towards the goal
+-   -100 and end of episode when touching the bedrock
+
+https://user-images.githubusercontent.com/59528773/220745121-85449269-235f-4d0d-a1b3-a1aea2f5c0fa.mp4
