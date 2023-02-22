@@ -35,7 +35,11 @@ def create_env():
                    server2='127.0.0.1', port2=None,
                    role=0,
                    exp_uid='test1',
-                   episode=0, resync=0, reshape=True)
+                   episode=0,
+                   resync=0,
+                   reshape=True,
+                   action_filter={"move", "strafe"}
+                   )
 
     wrapped_env = WrappedEnv(malmo_env)
 
@@ -45,7 +49,7 @@ def create_env():
 if __name__ == "__main__":
     env = create_env()
     # model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
-    model = PPO('CnnPolicy', env, verbose=1)
+    model = PPO('MlpPolicy', env, verbose=1)
     model.learn(total_timesteps=10000)
     model.save("dqn_minecraft_parkour")
 

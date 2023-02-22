@@ -61,7 +61,7 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
         rewards = [
             {'type': 'bedrock', 'behaviour': 'onceOnly', 'reward': '-100'},
             {'type': 'diamond_block', 'behaviour': 'onceOnly', 'reward': '100'},
-            {'type': 'dirt', 'behaviour': 'oncePerTimeSpan', 'reward': '10'},
+            {'type': 'gold_block', 'behaviour': 'oncePerBlock', 'reward': '10'},
         ]
         # for block in self.blocks[1:]:
         #     rewards.append(
@@ -75,7 +75,7 @@ class MinecraftParkourEnv(BasaltBaseEnvSpec):
 
     def create_agent_start(self) -> List[Handler]:
         return [
-            handlers.AgentStartPlacement(0, 2, 0)
+            handlers.AgentStartPlacement(0.5, 2, 0.5, yaw=-90)
         ]
 
     def create_agent_handlers(self) -> List[Handler]:

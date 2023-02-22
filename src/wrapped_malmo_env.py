@@ -19,12 +19,16 @@ class WrappedEnv(gym.Env):
 
         self.obs_transform = transforms.Resize((64, 64))
 
-    def step(self, action):
+    def step(self, action: int):
         obs, reward, done, info = self.env.step(action)
         # SB3 expects a dict
         info = {'info': info}
 
-        if reward != 0:
+        # Add a small negative reward when turning (to encourage moving forward)
+        if action > 1:
+            reward -= 1
+
+        if reward > 0:
             print("Reward: " + str(reward))
 
         img = Image.fromarray(obs)
