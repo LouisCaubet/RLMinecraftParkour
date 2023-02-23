@@ -1,5 +1,5 @@
 /minerl-src
-logs
+logs*
 venv
 .idea
 empty_mc_world

@@ -25,8 +25,8 @@ class WrappedEnv(gym.Env):
         info = {'info': info}
 
         # Add a small negative reward when turning (to encourage moving forward)
-        if action > 1:
-            reward -= 1
+        # if action > 1:
+        #     reward -= 1
 
         if reward > 0:
             print("Reward: " + str(reward))

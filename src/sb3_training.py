@@ -7,7 +7,6 @@ import os
 import gym
 import malmoenv
 from stable_baselines3 import DQN, A2C, PPO
-import time
 import logging
 from dotenv import load_dotenv
 
@@ -57,7 +56,7 @@ if __name__ == "__main__":
     if algorithm == "DQN":
         model = DQN('MlpPolicy', env, verbose=1, buffer_size=100)
     elif algorithm == "A2C":
-        model = A2C('MlpPolicy', env, verbose=1)
+        model = A2C('MlpPolicy', env, verbose=1, tensorboard_log="./logs_mcparkour")
     elif algorithm == "PPO":
         model = PPO('MlpPolicy', env, verbose=1)
     else:
