@@ -38,14 +38,18 @@ def create_env():
                    episode=0, resync=0, reshape=True)
 
     wrapped_env = WrappedEnv(malmo_env)
+    print(wrapped_env.action_space)
 
     return wrapped_env
 
 
 if __name__ == "__main__":
     env = create_env()
-    # model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
-    model = PPO('CnnPolicy', env, verbose=1)
+    env.reset()
+    
+
+    #model = DQN('CnnPolicy', env, verbose=1, buffer_size=100)
+    model = DQN('CnnPolicy', env, verbose=1)
     model.learn(total_timesteps=10000)
     model.save("dqn_minecraft_parkour")
 
