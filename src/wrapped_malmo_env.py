@@ -3,6 +3,8 @@ Created on Feb 19, 2023
 
 @author: LouisCaubet
 """
+import time
+
 import gym
 from malmoenv import VisualObservationSpace
 from torchvision import transforms
@@ -34,6 +36,8 @@ class WrappedEnv(gym.Env):
         img = Image.fromarray(obs)
         img = self.obs_transform(img)
         obs = np.array(img)
+
+        time.sleep(0.1)
 
         return obs, reward, done, info
 

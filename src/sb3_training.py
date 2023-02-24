@@ -37,7 +37,7 @@ def create_env():
                    episode=0,
                    resync=0,
                    reshape=True,
-                   action_filter={"move", "strafe"}
+                   action_filter={"move", "strafe", "jumpstrafe"}
                    )
 
     wrapped_env = WrappedEnv(malmo_env)
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     elif algorithm == "A2C":
         model = A2C('MlpPolicy', env, verbose=1, tensorboard_log="./logs_mcparkour")
     elif algorithm == "PPO":
-        model = PPO('MlpPolicy', env, verbose=1)
+        model = PPO('MlpPolicy', env, verbose=1, tensorboard_log="./logs_mcparkour")
     else:
         raise ValueError(f"Unknown algorithm {algorithm}. Supported values: PPO, A2C, DQN")
 
