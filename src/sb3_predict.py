@@ -38,5 +38,6 @@ if __name__ == "__main__":
 
         if done:
             obs = env.reset()
+            time.sleep(1)
 
     env.close()
