@@ -77,3 +77,23 @@ Rewards:
 -   -100 and end of episode when touching the bedrock
 
 https://user-images.githubusercontent.com/59528773/220745121-85449269-235f-4d0d-a1b3-a1aea2f5c0fa.mp4
+
+### Level 2: Narrower straight line with one-block jump
+
+Action space: _Move, Strafe_, _JumpStrafe_
+
+Rewards:
+
+-   +100 for reaching the diamond block
+-   +10 for each (gold) block towards the goal
+-   -100 and end of episode when touching the bedrock
+
+When training using PPO with 10k timesteps, **the agent hacks the game!** (Manages to jump for way longer distances that it should be possible)
+
+_video_
+
+To prevent this, add a minimum delay of 0.1s between actions. To adapt the agent to this new environment, we finetune the previous model for 2k more timesteps. Now, it works!
+
+_video_
+
+_Note: Due to the time.sleep, sometimes the +100 reward is not given despite the agent being on the diamond block._

@@ -45,6 +45,15 @@ def create_env():
     return wrapped_env
 
 
+def load_or_create_model(model_class, gym_env):
+    if os.environ["FINETUNE"] == "true":
+        model_ = model_class.load(os.environ["SB3_INFERENCE_MODEL_NAME"], env=gym_env, print_system_info=True)
+    else:
+        model_ = model_class('MlpPolicy', gym_env, verbose=1, tensorboard_log="./logs_mcparkour")
+
+    return model_
+
+
 if __name__ == "__main__":
     load_dotenv(".env")
     
@@ -54,11 +63,11 @@ if __name__ == "__main__":
     export_name = os.environ.get("S3_TRAINED_MODEL_NAME", "dqn_minecraft_parkour")
 
     if algorithm == "DQN":
-        model = DQN('MlpPolicy', env, verbose=1, buffer_size=100)
+        model = load_or_create_model(DQN, env)
     elif algorithm == "A2C":
-        model = A2C('MlpPolicy', env, verbose=1, tensorboard_log="./logs_mcparkour")
+        model = load_or_create_model(A2C, env)
     elif algorithm == "PPO":
-        model = PPO('MlpPolicy', env, verbose=1, tensorboard_log="./logs_mcparkour")
+        model = load_or_create_model(PPO, env)
     else:
         raise ValueError(f"Unknown algorithm {algorithm}. Supported values: PPO, A2C, DQN")
 
