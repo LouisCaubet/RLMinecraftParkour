@@ -90,10 +90,18 @@ Rewards:
 
 When training using PPO with 10k timesteps, **the agent hacks the game!** (Manages to jump for way longer distances that it should be possible)
 
-_video_
+
+
+https://user-images.githubusercontent.com/59528773/224158058-88f29a97-2707-488d-8269-c7a58d6b829b.mp4
+
+
 
 To prevent this, add a minimum delay of 0.1s between actions. To adapt the agent to this new environment, we finetune the previous model for 2k more timesteps. Now, it works!
 
-_video_
+
+
+https://user-images.githubusercontent.com/59528773/224158074-ba60ec73-9c7c-4304-93ff-ae9ea289d579.mp4
+
+
 
 _Note: Due to the time.sleep, sometimes the +100 reward is not given despite the agent being on the diamond block._
